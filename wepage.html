@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Health Revenue Matrix Solutions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --sky-blue: #cfe8fc;
+      --neutral-gray: #f5f6fa;
+      --slate-gray: #334155;
+
+      --fs-base: 1rem;
+      --fs-small: 0.95rem;
+      --fs-xs: 0.875rem;
+      --fs-h1: 2.5rem;
+      --fs-h1-xl: 4rem;
+      --fs-h2: 2rem;
+      --fs-h3: 1.5rem;
+      --fs-caption: 1.125rem;
+      --fs-button: 1.125rem;
+      --fs-link: 1rem;
+    }
+
+    body {
+      min-width: 100vw;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      background: var(--neutral-gray);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      min-height: 80vh;
+      margin: 0;
+      padding: 0 0 0 3rem;
+      font-size: var(--fs-base);
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      width: 100%;
+    }
+
+    header h1 {
+      font-size: var(--fs-h1-xl, 8rem);
+      font-weight: 900;
+      color: rgb(45, 165, 45);
+      margin: 0;
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    header .caption {
+      font-size: 2.25rem;
+      font-weight: 600;
+      color: #19237c;
+      margin-top: 0.5rem;
+      font-family: Arial, Helvetica, sans-serif;
+      align-self: flex-end;
+      text-align: right;
+      padding-right: 1rem;
+    }
+
+    header .subtitle {
+      font-size: 2.1rem;
+      font-weight: 500;
+      color: #a58b36;
+      margin-top: 0.2rem;
+      text-align: left;
+      font-family: Arial, Helvetica, sans-serif;
+      align-self: flex-start;
+    }
+
+    ul, ol {
+      font-size: var(--fs-base);
+      padding-left: 2.5rem;
+    }
+
+    li {
+      font-size: var(--fs-base);
+    }
+
+    .highlight {
+      font-size: var(--fs-base);
+      font-weight: 600;
+    }
+
+    .subtext {
+      font-size: var(--fs-small);
+    }
+
+    .cta, .cta h3, button, .button {
+      font-size: var(--fs-button);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      padding: 0.5em 1.2em;
+      background: var(--sky-blue);
+      color: var(--slate-gray);
+      transition: background 0.3s;
+    }
+
+    .cta:focus, .button:focus, button:focus, a:focus {
+      outline: 4px solid var(--slate-gray);
+      outline-offset: 4px;
+    }
+
+    .cta:hover, .button:hover, button:hover {
+      background: #2e8cd8;
+    }
+
+    a {
+      font-size: var(--fs-link);
+      font-weight: 500;
+      color: #b21fcf;
+      text-decoration: underline;
+      transition: color 0.2s;
+    }
+
+    a:hover, a:focus {
+      color: #174ea6;
+    }
+
+    footer, .cert-logo, .cert-logos, .price-img, blockquote {
+      font-size: var(--fs-xs);
+    }
+
+    .info-img, .price-img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .cta, .showcase-box {
+      background: linear-gradient(90deg, #cfe8fc 0%, #ffe29a 50%, #ffd6e0 100%);
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      margin: 2rem auto;
+      box-shadow: 0 2px 8px rgba(45, 172, 77, 0.08);
+      font-size: 1.15rem;
+      color: #334155;
+      max-width: 900px;
+      transition: box-shadow 0.2s;
+    }
+
+    .cta h3, .showcase-box h3 {
+      color: #e25822;
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    .cta strong, .showcase-box strong {
+      color: #042142;
+    }
+
+    .cta .cta-register, .showcase-box .cta-register {
+      color: #2d7a2d;
+      font-weight: 700;
+    }
+
+    .footer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem 1rem 1rem;
+      background: linear-gradient(90deg, #cfe8fc 0%, #ffe29a 100%);
+      border-top-left-radius: 24px;
+      border-top-right-radius: 24px;
+      box-shadow: 0 -2px 16px rgba(51,65,85,0.08);
+      margin-top: 2rem;
+    }
+
+    .footer blockquote {
+      font-size: 1.15rem;
+      font-style: italic;
+      color: #334155;
+      text-align: center;
+      margin: 0 0 1rem 0;
+      padding: 0.5rem 1rem;
+      background: rgba(255,255,255,0.6);
+      border-left: 4px solid #1a73e8;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .footer-quote {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      font-size: 1.3rem;
+      font-weight: 600;
+      font-style: italic;
+      color: #334155;
+      background: linear-gradient(90deg, #cfe8fc 0%, #ffe29a 100%);
+      border-left: 5px solid #1a73e8;
+      border-radius: 10px;
+      padding: 1.2rem 2rem;
+      margin: 2rem auto 1rem auto;
+      max-width: 700px;
+      box-shadow: 0 2px 8px rgba(51,65,85,0.08);
+      text-align: center;
+    }
+
+    .footer-copyright {
+      text-align: center;
+      color: #334155;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Responsive image/text section */
+    .who-we-are-section {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      width: 100%;
+      max-width: 1200px;
+    }
+    .who-we-are-section .text-half {
+      flex: 1 1 350px;
+      min-width: 300px;
+    }
+    .who-we-are-section .image-half {
+      flex: 1 1 300px;
+      min-width: 250px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cert-logos-row {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      margin: 2rem 0;
+    }
+    .cert-logo {
+      height: 60px;
+      width: auto;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 1px 4px rgba(51,65,85,0.12);
+      padding: 0.5rem 1rem;
+    }
+    .price-image-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 2rem 0;
+      width: 100%;
+    }
+    @media (max-width: 900px) {
+      .who-we-are-section {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .app-container {
+        padding-left: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <header>
+      <h1>Health Revenue Matrix Solutions</h1>
+      <div class="caption">Creating Healthcare Experts</div>
+      <p class="subtitle">
+        Elevate Your Career with Industry-Leading Healthcare Certifications in 2025!
+      </p>
+    </header>
+
+    <section class="who-we-are-section">
+      <div class="text-half">
+        <h2>🎯 Who Are We?</h2>
+        <p>
+          We’re a premier Healthcare Training & Consulting Firm dedicated to empowering professionals with the skills, certifications, and support needed to excel in the ever-growing healthcare industry. Our certification-driven programs and job support services are designed to launch or elevate your career in:
+        </p>
+        <ul>
+          <li>Medical Coding</li>
+          <li>Revenue Cycle Management (RCM)</li>
+          <li>Medical Auditing</li>
+          <li>Healthcare Compliance</li>
+        </ul>
+      </div>
+      <div class="image-half">
+        <img src="assets/Students.png" alt="Our Students" class="info-img">
+      </div>
+    </section>
+
+    <section>
+      <h2>🩺 Why Medical Coding & Revenue Cycle Certifications?</h2>
+      <p>
+        The healthcare landscape is rapidly expanding and so is the demand for certified professionals who can accurately code, bill, and manage health records. Here's why it matters:
+      </p>
+      <ul>
+        <li>Higher earning potential with industry-recognized certifications</li>
+        <li>More job opportunities in hospitals, payers, insurers, and consulting firms</li>
+        <li>Remote-friendly roles offering work-from-home flexibility</li>
+        <li>Steppingstones to HIM, Compliance, and Medical Auditing roles</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>📘 What Is Medical Coding?</h2>
+      <p>
+        Medical Coding translates clinical diagnoses and procedures into standardized alphanumeric codes (ICD-10-CM, CPT, HCPCS, DRG). These codes are vital for:
+      </p>
+      <ul>
+        <li>Insurance claim processing</li>
+        <li>Provider reimbursement</li>
+        <li>Regulatory reporting</li>
+        <li>Data analytics & compliance</li>
+      </ul>
+      <div class="highlight">
+        🎯 <strong>Accurate coding = fewer denials + faster payments + legal protection</strong>
+      </div>
+    </section>
+
+    <section>
+      <h2>🎓 What Are These Certification Programs?</h2>
+      <p>
+        We offer training for top-tier, globally recognized certifications that validate your expertise and boost your employability:
+      </p>
+      <ul>
+        <li>
+          <strong>🔹 HFMA Certification</strong>
+          <ul>
+            <li>
+              <strong>CRCR (Certified Revenue Cycle Representative):</strong> Focuses on the end-to-end revenue cycle, including registration, billing, collections, and compliance. Perfect for RCM specialists, billing professionals, and hospital revenue staff.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>🔹 AAPC Certifications</strong>
+          <ul>
+            <li><strong>CPC (Certified Professional Coder):</strong> For physician coding (Outpatient settings)</li>
+            <li><strong>COC (Certified Outpatient Coder):</strong> For coding hospital outpatient services</li>
+            <li><strong>CIC (Certified Inpatient Coder):</strong> For inpatient hospital coding (ICD-10-PCS, MS-DRG)</li>
+            <li><strong>CPMA (Certified Professional Medical Auditor):</strong> For compliance and medical audits</li>
+          </ul>
+        </li>
+        <li>
+          <strong>🔹 AHIMA Certifications</strong>
+          <ul>
+            <li>
+              <strong>CCS (Certified Coding Specialist):</strong> Recognized for both inpatient and outpatient coding, combining CPT and ICD-10 skills
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <div class="cert-logos-row">
+        <img src="assets/AAPC.WEBP" alt="AAPC" class="cert-logo">
+        <img src="assets/AHIMA.WEBP" alt="AHIMA" class="cert-logo">
+        <img src="assets/HFMA.png" alt="HFMA" class="cert-logo">
+      </div>
+    </section>
+
+    <section>
+      <h2>📚 Core Skills You’ll Master</h2>
+      <ul>
+        <li>
+          <strong>✅ Medical Terminology & Anatomy</strong>
+          <p class="subtext">
+            Medical terminology refers to the specialized language used by healthcare professionals to describe the human body, its conditions, processes, procedures, and treatments. Anatomy is the study of the structure and parts of the human body.<br>
+            <span class="why">🔍 Why it's important:</span> Knowing these terms helps coders understand clinical documentation and assign accurate codes.
+          </p>
+        </li>
+        <li>
+          <strong>✅ ICD-10-CM, ICD-10-PCS, CPT, HCPCS Level II Coding Systems</strong>
+          <ul>
+            <li><strong>ICD-10-CM:</strong> Used to code diagnoses and health conditions in all healthcare settings.</li>
+            <li><strong>ICD-10-PCS:</strong> Used to code inpatient hospital procedures.</li>
+            <li><strong>CPT:</strong> Represents medical, surgical, and diagnostic services primarily in outpatient and physician settings.</li>
+            <li><strong>HCPCS Level II:</strong> Codes for non-physician services such as DME, ambulance, prosthetics, and certain medications.</li>
+          </ul>
+          <p class="subtext">
+            <span class="why">🔍 Why it's important:</span> Mastery of these systems is essential for accurate coding and billing.
+          </p>
+        </li>
+        <li>
+          <strong>✅ Inpatient/Outpatient Billing Guidelines</strong>
+          <p class="subtext">
+            Inpatient billing refers to services provided when a patient is formally admitted to a hospital. Outpatient billing covers services where patients receive care without being admitted.<br>
+            <span class="why">🔍 Why it's important:</span> Different billing rules apply depending on the care setting; coders must follow specific guidelines to ensure accurate claims.
+          </p>
+        </li>
+        <li>
+          <strong>✅ E/M Coding, Modifiers, and Audit Preparation</strong>
+          <p class="subtext">
+            E/M Coding involves documenting and coding physician-patient interactions. Modifiers are two-character codes added to CPT/HCPCS codes to provide more detail. Audit Preparation involves reviewing and verifying coding accuracy.<br>
+            <span class="why">🔍 Why it's important:</span> Mastery in E/M coding and modifiers directly impacts reimbursement and audit readiness.
+          </p>
+        </li>
+        <li>
+          <strong>✅ HIPAA & HITECH Compliance Regulations</strong>
+          <p class="subtext">
+            <strong>HIPAA:</strong> Sets the standard for protecting sensitive patient health information (PHI).<br>
+            <strong>HITECH:</strong> Strengthens HIPAA by promoting the adoption of electronic health records (EHRs) and enhancing security protections.<br>
+            <span class="why">🔍 Why it's important:</span> Understanding HIPAA and HITECH is critical to ensure that health information is coded, stored, transmitted, and handled legally, ethically, and securely.
+          </p>
+        </li>
+        <li>
+          <strong>✅ RCM Workflow & Healthcare Reimbursement Systems</strong>
+          <p class="subtext">
+            Revenue Cycle Management (RCM) tracks patient care episodes from registration to final payment. Reimbursement systems determine how providers get paid by insurers.<br>
+            <span class="why">🔍 Why it's important:</span> Coders play a critical role in the revenue cycle by translating clinical services into reimbursable codes.
+          </p>
+        </li>
+        <li>
+          <strong>✅ Practice Exams & Mock Interviews</strong>
+          <p class="subtext">
+            Practice exams simulate real certification test environments. Mock interviews help candidates build confidence and answer job interview questions effectively.<br>
+            <span class="why">🔍 Why it's important:</span> These tools help ensure exam success and job-readiness through hands-on preparation and feedback.
+          </p>
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>🌎 Who Can Join?</h2>
+      <ul>
+        <li>RCM/Medical Billing Professionals wanting to upgrade their profiles</li>
+        <li>Clinical and IT Professionals pivoting into HIM or compliance roles</li>
+        <li>International Medical Graduates (IMGs) seeking non-clinical US healthcare careers</li>
+        <li>Career Switchers from any background aiming for remote & in-demand healthcare roles</li>
+      </ul>
+      <p>
+        <strong>📍 Location:</strong> 100% Online – Join from Anywhere
+      </p>
+      <p>
+        <strong>📞 Register Now:</strong> Call/WhatsApp <a href="tel:+12038951532">+1 (203) 895-1532</a>
+      </p>
+    </section>
+
+    <div class="price-image-container">
+      <img src="assets/Price.png" alt="Course Pricing" class="price-img">
+    </div>
+
+    <section class="cta">
+      <p>🕒 Flexible Timings | Live Sessions Available</p>
+      <h3>🔥 Your Future Starts Here!</h3>
+      <p>
+        Start a rewarding healthcare career in 2025! Join our expert-led training, become certified, and enter the world of Medical Coding, Revenue Cycle Management, and Healthcare Compliance.
+      </p>
+      <p>
+        <strong>Seats are limited – Register today!</strong>
+      </p>
+      <p>
+        Let’s work together to make your career aspirations a reality. 🚀
+      </p>
+    </section>
+
+    <footer class="footer">
+      <blockquote class="footer-quote">
+        <span role="img" aria-label="sparkle">✨</span>
+        Welcome to healthcare! Get ready to grow, learn, and become an expert in this vital field
+        <span role="img" aria-label="health">🩺</span>
+      </blockquote>
+      <p class="footer-copyright">
+        © <span id="year"></span> Health Revenue Matrix Solutions. All rights reserved.
+      </p>
+    </footer>
+  </div>
+  <script>
+    // Set current year dynamically
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
